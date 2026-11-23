@@ -1,3 +1,4 @@
+
 /.phpunit.cache
 /node_modules
 /public/build
@@ -21,3 +22,12 @@ yarn-error.log
 /.nova
 /.vscode
 /.zed
+/.vagrant
+
+# Laravel legacy files
+bootstrap/compiled.php
+app/storage/
+
+# Alternative public path
+public_html/storage
+public_html/hot
