@@ -50,32 +50,61 @@
             </thead>
 
             <tbody>
-                <tr style="border-bottom:1px solid #eee;">
-                    <td style="padding:15px;">AST-001</td>
-                    <td>حاسوب مكتبي</td>
-                    <td>أجهزة حاسوب</td>
-                    <td>مختبر الحاسوب</td>
-                    <td><span style="color:green;">متاح</span></td>
-                    <td><a href="{{ url('/assets/show') }}" style="color:#2563eb;">عرض</a></td>
-                </tr>
 
-                <tr style="border-bottom:1px solid #eee;">
-                    <td style="padding:15px;">AST-002</td>
-                    <td>طابعة ليزر</td>
-                    <td>طابعات</td>
-                    <td>الإدارة</td>
-                    <td><span style="color:#d97706;">مستعار</span></td>
-                    <td><a href="{{ url('/assets/show') }}" style="color:#2563eb;">عرض</a></td>
-                </tr>
+                @forelse ($assets as $asset)
 
-                <tr>
-                    <td style="padding:15px;">AST-003</td>
-                    <td>جهاز عرض</td>
-                    <td>أجهزة عرض</td>
-                    <td>قاعة المحاضرات</td>
-                    <td><span style="color:#dc2626;">صيانة</span></td>
-                    <td><a href="{{ url('/assets/show') }}" style="color:#2563eb;">عرض</a></td>
-                </tr>
+                    <tr style="border-bottom:1px solid #eee;">
+
+                        <td style="padding:15px;">
+                            {{ $asset->asset_tag }}
+                        </td>
+
+                        <td>
+                            {{ $asset->name }}
+                        </td>
+
+                        <td>
+                            {{ $asset->category->name ?? 'غير محدد' }}
+                        </td>
+
+                        <td>
+                            {{ $asset->location->name ?? 'غير محدد' }}
+                        </td>
+
+                        <td>
+                            @if ($asset->status == 'available')
+                                <span style="color:green;">متاح</span>
+
+                            @elseif ($asset->status == 'borrowed')
+                                <span style="color:#d97706;">مستعار</span>
+
+                            @elseif ($asset->status == 'maintenance')
+                                <span style="color:#dc2626;">تحت الصيانة</span>
+
+                            @else
+                                <span>{{ $asset->status }}</span>
+                            @endif
+                        </td>
+
+                        <td>
+                            <a href="{{ url('/assets/show?id=' . $asset->id) }}"
+                               style="color:#2563eb;">
+                                عرض
+                            </a>
+                        </td>
+
+                    </tr>
+
+                @empty
+
+                    <tr>
+                        <td colspan="6" style="padding:20px; text-align:center; color:#748198;">
+                            لا توجد أصول مسجلة حاليًا
+                        </td>
+                    </tr>
+
+                @endforelse
+
             </tbody>
 
         </table>
